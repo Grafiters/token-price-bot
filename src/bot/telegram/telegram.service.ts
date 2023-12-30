@@ -1,13 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Context, Telegraf } from 'telegraf';
 
 @Injectable()
 export class TelegramService {
+  private readonly configService: ConfigService;
   private readonly logger = new Logger(TelegramService.name);
   private readonly bot: Telegraf;
 
   constructor() {
-    this.bot = new Telegraf('6708230213:AAFDlRmKkIlQY19zZfBXzqLqy_hobwyWkJY');
+    const mustBotFatherConfig = this.configService.get('botfather');
+    const { token } = mustBotFatherConfig;
+    this.bot = new Telegraf(token);
     this.setupListener();
   }
 
