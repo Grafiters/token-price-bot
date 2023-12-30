@@ -1,3 +1,4 @@
+import { config } from 'dotenv';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { TelegramService } from './bot/telegram/telegram.service';
@@ -13,4 +14,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+config();
 bootstrap();

@@ -5,13 +5,14 @@ import { Telegraf } from 'telegraf';
 
 @Injectable()
 export class TaskService {
-  private readonly configService: ConfigService;
   private readonly bot: Telegraf;
 
   private readonly logger = new Logger(TaskService.name);
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     const mustBotFatherConfig = this.configService.get('botfather');
+    console.log(mustBotFatherConfig);
+
     const { token } = mustBotFatherConfig;
     this.bot = new Telegraf(token);
   }

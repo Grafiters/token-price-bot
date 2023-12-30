@@ -4,11 +4,11 @@ import { Context, Telegraf } from 'telegraf';
 
 @Injectable()
 export class TelegramService {
-  private readonly configService: ConfigService;
   private readonly logger = new Logger(TelegramService.name);
   private readonly bot: Telegraf;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
+    this.logger.warn(JSON.stringify(configService));
     const mustBotFatherConfig = this.configService.get('botfather');
     const { token } = mustBotFatherConfig;
     this.bot = new Telegraf(token);
