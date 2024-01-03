@@ -4,6 +4,8 @@ import { AppService } from 'src/app.service';
 import { TaskService } from './task/task.service';
 import { ConfigModule } from '@nestjs/config';
 import botfatherConfig from 'src/configs/botfather.config';
+import { UnisatService } from 'src/services/unisat/unisat.service';
+import { UnisatModule } from 'src/services/unisat/unisat.module';
 
 @Module({
   imports: [
@@ -12,7 +14,8 @@ import botfatherConfig from 'src/configs/botfather.config';
       isGlobal: true,
       load: [botfatherConfig],
     }),
+    UnisatModule
   ],
-  providers: [AppService, TaskService],
+  providers: [AppService, TaskService, UnisatService],
 })
 export class TaskModule {}
