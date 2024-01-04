@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { readFile } from 'node:fs/promises';
+import { env } from 'node:process';
 
 import * as yaml from 'js-yaml';
 import { YmlContent } from './type/path.type';
@@ -14,8 +15,10 @@ export class HttpService {
     private platformName: string;
     private ymlContent: YmlContent;
     private customHeader: Header;
+    private useProxy = env.USE_PROXY;
 
     private defaultHeader: Record<string, string> = {
+        'Host': 'www.internetpositif.id',
         'Content-Type': 'application/json'
     }
 
@@ -29,7 +32,9 @@ export class HttpService {
 
             const headers = await this.buildHeader();
 
-            const config: AxiosRequestConfig = {headers};
+            const config: AxiosRequestConfig = { 
+                headers
+            };
             const response = await axios.get(buildUrlPath, config);
             
             return response;
