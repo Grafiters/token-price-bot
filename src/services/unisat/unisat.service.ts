@@ -7,6 +7,7 @@ import { Height } from '../http/type/unisat.type';
 export class UnisatService {
     private readonly logger = new Logger(UnisatService.name);
     private heigtResponse: Height;
+    private currentHeight: number;
 
     private defaultHeader: Header = {
         'OK_ACCESS_KEY': null,
@@ -16,11 +17,19 @@ export class UnisatService {
         'Authorization': `Bearer 539a15a6705b98a6a5295acceb15d336b218e897362591805bf632276fbaaa49`
     }
 
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly httpService: HttpService,
+    ) {
+        this.currentHeight = 0;
+    }
 
-    public async getHeight(){
+    public async getHistoryTicker(){
+        if(this.currentHeight == 0){
+            await this.getHeight();
+        }
         try {
-            const request = await this.httpService.get('bestheight', 'unisat', this.defaultHeader);            
+            // const request = await this.httpService.get(`csas/history?start=1&limit=5&type=transfer`, 'unisat', this.defaultHeader);
+            const request = await this.httpService.get(`history-by-height/${this.currentHeight - 3}`, 'unisat', this.defaultHeader);
             
             if(request.status === 200){
                 this.heigtResponse = request.data.data;
@@ -34,14 +43,16 @@ export class UnisatService {
         }
     }
 
-    public async getList(){
+    public async getHeight(){
         try {
-            const request = await this.httpService.get('list', 'unisat', this.defaultHeader);
+            const request = await this.httpService.get('bestheight', 'unisat', this.defaultHeader);            
             
             if(request.status === 200){
-                return request.data.data;
+                this.heigtResponse = request.data.data;
+                this.currentHeight = this.heigtResponse.height;
+                return this.currentHeight;
             }else{
-                return null;
+                return this.currentHeight;
             }
         } catch (error) {
             this.logger.error(`error when try to request unisat height block`, error)

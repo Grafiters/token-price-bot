@@ -22,8 +22,8 @@ export class TaskService {
   @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron() {
     this.logger.debug('Sending scheduled message...');
-    const unisat = await this.unisatService.getList();
+    const unisat = await this.unisatService.getHistoryTicker();
 
-    await this.bot.telegram.sendMessage(6599245116, JSON.stringify(unisat));
+    await this.bot.telegram.sendMessage(6599245116, "");
   }
 }

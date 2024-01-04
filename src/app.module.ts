@@ -15,7 +15,6 @@ import botfatherConfig from './configs/botfather.config';
 @Module({
   imports: [
     TelegramModule,
-    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [botfatherConfig],

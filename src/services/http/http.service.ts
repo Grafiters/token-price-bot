@@ -18,7 +18,6 @@ export class HttpService {
     private useProxy = env.USE_PROXY;
 
     private defaultHeader: Record<string, string> = {
-        'Host': 'www.internetpositif.id',
         'Content-Type': 'application/json'
     }
 
