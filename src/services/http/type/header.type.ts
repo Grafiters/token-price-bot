@@ -1,5 +1,5 @@
 export type Header = {
-    'OK_ACCESS_KEY': string | null;
+    'Ok-Access-Key': string | null;
     'OK_ACCESS_SIGN': string | null;
     'OK_ACCESS_TIMESTAMP': string | null;
     'OK_ACCESS_PASSPHRASE': string | null;

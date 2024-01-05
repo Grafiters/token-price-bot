@@ -1,9 +1,12 @@
 okx: 
-  url: https://www.okx.com
+  url: https://www.oklink.com
   service: /api/v5
 okxActivity:
   url: https://www.okx.com
   service: /priapi/v1
 unisat:
   url: https://open-api.unisat.io
-  service: /v1/indexer/brc20
+  service: /v1/indexer
+unisatbrc:
+  url: https://open-api.unisat.io
+  service: /v2

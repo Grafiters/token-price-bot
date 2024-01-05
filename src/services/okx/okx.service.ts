@@ -10,7 +10,7 @@ export class OkxService {
     private defaultLimit: number;
 
     private defaultHeader: Header = {
-        'OK_ACCESS_KEY': null,
+        'Ok-Access-Key': '1897ad11-6ba4-43b8-b447-978616f07415',
         'OK_ACCESS_SIGN': null,
         'OK_ACCESS_TIMESTAMP': null,
         'OK_ACCESS_PASSPHRASE': null,
