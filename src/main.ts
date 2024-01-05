@@ -9,8 +9,8 @@ async function bootstrap() {
   const telegramService = app.get(TelegramService);
   const taskService = app.get(TaskService);
 
-  // await telegramService.startBot();
-  // await taskService.handleCron();
+  await telegramService.startBot();
+  await taskService.handleCron();
 
   await app.listen(3000);
 }

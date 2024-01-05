@@ -42,7 +42,7 @@ export type InscribeData = {
     minerFee: number | 0,
     serviceFee: number | 0,
     devFee: number | 0,
-    files: InscribeDataFile[] | null | [] | "",
+    files: InscribeDataFile[],
     count: number | 1,
     pendingCount: number | 1,
     unconfirmedCount: number | 0,

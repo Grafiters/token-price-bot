@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { OkxService } from '@services/okx/okx.service';
 import { UnisatService } from '@services/unisat/unisat.service';
 import { Telegraf } from 'telegraf';
 
@@ -11,7 +12,7 @@ export class TaskService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly unisatService: UnisatService
+    private readonly okxService: OkxService
     ) {
     const mustBotFatherConfig = this.configService.get('botfather');
 
@@ -22,8 +23,8 @@ export class TaskService {
   @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron() {
     this.logger.debug('Sending scheduled message...');
-    const unisat = await this.unisatService.getHistoryTicker();
+    const okx = await this.okxService.TokenActivity();
 
-    await this.bot.telegram.sendMessage(6599245116, "");
+    await this.bot.telegram.sendMessage(6599245116, okx, { parse_mode: 'HTML' });
   }
 }

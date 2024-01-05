@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(TaskModule);
   const taskService = app.get(TaskService);
 
-  // await taskService.handleCron();
+  await taskService.handleCron();
 
   await app.listen(3000);
 }

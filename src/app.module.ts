@@ -10,11 +10,14 @@ import { EncryptionService } from './utils/encryption.service';
 import { UnisatService } from './services/unisat/unisat.service';
 import { UnisatModule } from './services/unisat/unisat.module';
 import { OkxModule } from './services/okx/okx.module';
+import { MessagesService } from './services/messages/messages.service';
 import botfatherConfig from './configs/botfather.config';
+import { OkxService } from '@services/okx/okx.service';
 
 @Module({
   imports: [
     TelegramModule,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [botfatherConfig],
@@ -23,6 +26,6 @@ import botfatherConfig from './configs/botfather.config';
     OkxModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TaskService, HttpService, EncryptionService, UnisatService],
+  providers: [AppService, TaskService, HttpService, EncryptionService, UnisatService, MessagesService, OkxService],
 })
 export class AppModule {}

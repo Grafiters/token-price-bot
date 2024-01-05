@@ -9,7 +9,7 @@ useCore( async function (core) {
     console.log("===================");
     console.log("TRY TO GET ACTIVITY");
     console.log("===================");
-    const hsv = core.get(Brc20Service);
+    const hsv = core.get(OkxService);
     const bodyObject = {
         receiveAddress: 'bc1p7vyu96tvgnqj5erysf9vt2vuf3rwv83t7s5clcgp5m7dw232uyasc52jjw',
         feeRate: 1,
@@ -20,7 +20,7 @@ useCore( async function (core) {
         brc20Max: "2",
         brc20Limit: ""
     }
-    const file = await hsv.tickerInfo('kcsl');
+    const file = await hsv.tokenDetailCall();
     console.log(file);
     
     console.log("===================");
