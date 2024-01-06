@@ -20,7 +20,7 @@ useCore( async function (core) {
         brc20Max: "2",
         brc20Limit: ""
     }
-    const file = await hsv.tokenDetailCall();
+    const file = await hsv.TokenActivity();
     console.log(file);
     
     console.log("===================");

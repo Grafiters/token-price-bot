@@ -11,8 +11,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@bot/*": ["src/bot/*"],
       "@services/*": ["src/services/*"],
-      "@configs/*": ["src/configs/*"]
+      "@configs/*": ["src/configs/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

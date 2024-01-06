@@ -13,6 +13,7 @@ import { OkxModule } from './services/okx/okx.module';
 import { MessagesService } from './services/messages/messages.service';
 import botfatherConfig from './configs/botfather.config';
 import { OkxService } from '@services/okx/okx.service';
+import { TelegramService } from './bot/telegram/telegram.service';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { OkxService } from '@services/okx/okx.service';
     OkxModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TaskService, HttpService, EncryptionService, UnisatService, MessagesService, OkxService],
+  providers: [AppService, TaskService, HttpService, EncryptionService, UnisatService, MessagesService, OkxService, TelegramService],
 })
 export class AppModule {}

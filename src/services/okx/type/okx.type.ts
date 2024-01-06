@@ -4,7 +4,7 @@ export type Token = {
     state: string,
     tokenType: string,
     actionType: string,
-    fromAddres: string,
+    fromAddress: string,
     toAddress: string,
     amount: string,
     token: string,
@@ -33,4 +33,16 @@ export type TokenDetail = {
     state: string,
     tokenType: string,
     msg: string
+}
+
+export type SummaryToken = {
+    lastPrice: string,
+    totalSupply: string,
+    maxSupply: string,
+    circulatingSupply: string,
+    volume24h: string,
+    marketCap: string,
+    high24h: string,
+    low24h: string,
+    priceAbnormal: []
 }

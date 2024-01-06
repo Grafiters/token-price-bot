@@ -5,6 +5,7 @@ import { HttpService } from '@services/http/http.service';
 import { ConfigModule } from '@nestjs/config';
 import okxConfig from '@configs/okx.config';
 import { MessagesService } from '@services/messages/messages.service';
+import { EncryptionService } from '@utils/encryption.service';
 
 
 @Module({
@@ -14,6 +15,6 @@ import { MessagesService } from '@services/messages/messages.service';
       load: [okxConfig],
     }),
   ],
-  providers: [OkxService, AppService, HttpService, MessagesService],
+  providers: [OkxService, AppService, HttpService, MessagesService, EncryptionService],
 })
 export class OkxModule {}

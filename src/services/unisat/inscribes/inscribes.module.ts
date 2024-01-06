@@ -4,8 +4,9 @@ import { HttpService } from '@services/http/http.service';
 import { OrderService } from './order/order.service';
 import { RefundService } from './refund/refund.service';
 import { MessagesService } from '@services/messages/messages.service';
+import { EncryptionService } from '@utils/encryption.service';
 
 @Module({
-  providers: [Brc20Service, HttpService, OrderService, RefundService, MessagesService]
+  providers: [Brc20Service, HttpService, OrderService, RefundService, MessagesService, EncryptionService]
 })
 export class InscribesModule {}
