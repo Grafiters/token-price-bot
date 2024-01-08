@@ -13,9 +13,9 @@ const _okxservice = require("./okx.service");
 const _appservice = require("../../app.service");
 const _httpservice = require("../http/http.service");
 const _config = require("@nestjs/config");
-const _okxconfig = /*#__PURE__*/ _interop_require_default(require("../../configs/okx.config"));
+const _okxconfig = /*#__PURE__*/ _interop_require_default(require("@configs/okx.config"));
 const _messagesservice = require("../messages/messages.service");
-const _encryptionservice = require("../../utils/encryption.service");
+const _encryptionservice = require("@utils/encryption.service");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

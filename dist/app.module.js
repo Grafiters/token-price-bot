@@ -22,12 +22,12 @@ const _unisatmodule = require("./services/unisat/unisat.module");
 const _okxmodule = require("./services/okx/okx.module");
 const _messagesservice = require("./services/messages/messages.service");
 const _botfatherconfig = /*#__PURE__*/ _interop_require_default(require("./configs/botfather.config"));
-const _okxservice = require("./services/okx/okx.service");
 const _telegramservice = require("./bot/telegram/telegram.service");
-const _databasemodule = require("./configs/database/database.module");
 const _userservice = require("./db/models/user/user.service");
 const _usermodule = require("./db/models/user/user.module");
 const _databaseconfig = /*#__PURE__*/ _interop_require_default(require("./configs/database.config"));
+const _databasemodule = require("./configs/database/database.module");
+const _okxservice = require("./services/okx/okx.service");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
