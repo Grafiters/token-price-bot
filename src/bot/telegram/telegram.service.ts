@@ -7,7 +7,7 @@ import { Message } from './type/message.type';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class TelegramService {
-  private userConfig: Map<number, UserConfig[]> = new Map();
+  userConfig: Map<number, UserConfig[]> = new Map();
   private readonly logger = new Logger(TelegramService.name);
   private readonly bot: Telegraf;
   private roomIdForCheck: boolean = false;
@@ -23,7 +23,7 @@ export class TelegramService {
     this.setupListener();
   }
 
-  public getUserConfig() {
+  getUserConfig() {
     const userConfigs = Array.from(this.userConfig.values());
     this.logger.debug(JSON.stringify(userConfigs));
     return userConfigs
