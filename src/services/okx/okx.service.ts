@@ -42,9 +42,6 @@ export class OkxService {
             this.tokenData = response.data.data[0].inscriptionsList[0]
             console.log(this.tokenData);
             
-            await this.tokenDetailCall();
-            await this.priceTokenData()
-            
             const message = await this.messageService.OkxNotifyMessage(this.tokenData, this.summaryToken);
 
             return message;
@@ -54,8 +51,8 @@ export class OkxService {
         }
     }
 
-    public async tokenDetailCall<T>(): Promise<TokenDetail>{
-        const path = `explorer/btc/token-details?token=${this.tickerOn}`;
+    public async tokenDetailCall<T>(ticker: string): Promise<TokenDetail>{
+        const path = `explorer/btc/token-details?token=${ticker}`;
         try {
             const response = await this.httpService.get(path, 'okx', this.defaultHeader);
 
@@ -64,19 +61,24 @@ export class OkxService {
             return this.tokenDetail;
         } catch (error) {
             console.log(`Error on fetching data activity ${error}`);
-            throw(error);            
+            throw(error);
         }
     }
 
-    public async priceTokenData(){
-        const path = `explorer/tokenprice/market-data?chainId=0&tokenContractAddress=${this.tokenDetail.inscriptionId}`;
+    public async priceTokenData<T>(incriptionId: string): Promise<SummaryToken>{
+        const path = `explorer/tokenprice/market-data?chainId=0&tokenContractAddress=${incriptionId}`;
         try {
             const response = await this.httpService.get(path, 'okx', this.defaultHeader);
             this.logger.debug(response.data.data[0])
             this.summaryToken = response.data.data[0]
+            return this.summaryToken;
         } catch (error) {
             console.log(`Error on fetching data activity ${error}`);
             throw(error);            
         }
+    }
+
+    public async blockChecker(){
+
     }
 }

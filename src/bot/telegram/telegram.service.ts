@@ -4,6 +4,7 @@ import { UnisatService } from '@services/unisat/unisat.service';
 import { UserConfig } from 'src/scheduled/task/type/task.type';
 import { Context, Telegraf } from 'telegraf';
 import { Message } from './type/message.type';
+import { UserService } from '@db/models/user/user.service';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class TelegramService {
@@ -15,7 +16,8 @@ export class TelegramService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly unisatService: UnisatService
+    private readonly unisatService: UnisatService,
+    private readonly userService: UserService
   ) {
     const mustBotFatherConfig = this.configService.get('botfather');
     const { token } = mustBotFatherConfig;
@@ -29,16 +31,16 @@ export class TelegramService {
     return userConfigs
   }
 
-  private setupListener() {
+  private async setupListener() {
     this.logger.log('Received /start command.');
 
-    this.bot.start((ctx) => this.handleStart(ctx));
-    this.bot.help((ctx) => this.handleHelp(ctx));
-    this.bot.command("showSetting", (ctx) => this.handleGetConfigCommand(ctx));
-    this.bot.command("ticker", (ctx) => this.handleTickerUpdate(ctx));
+    this.bot.start(async (ctx) => await this.handleStart(ctx));
+    this.bot.help(async (ctx) => await this.handleHelp(ctx));
+    this.bot.command("showSetting", async (ctx) => await this.handleGetConfigCommand(ctx));
+    this.bot.command("ticker", async (ctx) => await this.handleTickerUpdate(ctx));
   }
 
-  private handleStart(ctx: Context) {
+  private async handleStart(ctx: Context) {
     this.logger.log('Received /start command.');
     this.logger.log(ctx.message.from.id);
     const roomId = ctx.message.from.id;
@@ -47,51 +49,33 @@ export class TelegramService {
     const existingConfig = userConfigs.find(config => config.userId === roomId);
 
     if (!existingConfig) {
-      const newConfig = {
-        userId: roomId,
-        ticker: "",
-        currentBlock: 0
-      };
-
-      userConfigs.push(newConfig);
-      this.userConfig.set(5674, userConfigs);
+      this.userService.createUser(roomId, "", "", 0);
     }
 
     ctx.reply('Hello! This is your bot.');
   }
 
-  private handleTickerUpdate(ctx: Context){
+  private async handleTickerUpdate(ctx: Context){
     this.logger.debug("Start handling ticker update");
 
     const roomId = ctx.message.from.id;
-    const userConfigs = this.userConfig.get(5674) || [];
 
-    const existingConfigIndex = userConfigs.findIndex(config => config.userId === roomId);
-
-    this.logger.debug(userConfigs);
     this.message = ctx.message;
-    if (existingConfigIndex !== -1) {
-      const [, newTicker ] = this.message.text.split(' ');
-
-      if (newTicker !== undefined) {
-        userConfigs[existingConfigIndex].ticker = newTicker;
-  
-        ctx.reply(`Ticker updated to: ${newTicker}`);
-      } else {
-        ctx.reply('Invalid command format. Please use /setTicker <newTicker>');
-      }
-    } else {
-      ctx.reply('User configuration not found. Please use /start to initialize.');
+    const [, newTicker ] = this.message.text.split(' ');
+    const updateTicker = await this.userService.updateTickerUser(roomId, newTicker);
+    if(updateTicker.hasOwnProperty('data')){
+      ctx.reply(updateTicker['message']);
     }
+    ctx.reply(`Ticker ${newTicker} has been updated`);
   }
 
-  private handleGetConfigCommand(ctx: Context) {
+  private async handleGetConfigCommand(ctx: Context) {
     const allConfigs = this.getUserConfig();
 
     ctx.reply(`User-specific configuration property ${JSON.stringify(allConfigs)}`);
   }
 
-  private handleHelp(ctx: Context) {
+  private async handleHelp(ctx: Context) {
     this.logger.log('Received /help command.');
     this.logger.debug(JSON.stringify(ctx.message.from.id));
     const helpMessage = `
@@ -105,6 +89,6 @@ export class TelegramService {
 
   async startBot() {
     this.logger.log('Received /start command instead.');
-    this.bot.launch();
+    await this.bot.launch();
   }
 }

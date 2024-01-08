@@ -26,14 +26,25 @@ _ts_decorate([
 ], UserEntities.prototype, "id", void 0);
 _ts_decorate([
     (0, _typeorm.Column)({
-        length: 100
+        type: "bigint",
+        unique: true
     }),
-    _ts_metadata("design:type", String)
+    _ts_metadata("design:type", Number)
 ], UserEntities.prototype, "userId", void 0);
 _ts_decorate([
     (0, _typeorm.Column)(),
     _ts_metadata("design:type", String)
+], UserEntities.prototype, "ticker", void 0);
+_ts_decorate([
+    (0, _typeorm.Column)(),
+    _ts_metadata("design:type", String)
 ], UserEntities.prototype, "tokenContractAddress", void 0);
+_ts_decorate([
+    (0, _typeorm.Column)({
+        type: "bigint"
+    }),
+    _ts_metadata("design:type", Number)
+], UserEntities.prototype, "currentBlock", void 0);
 UserEntities = _ts_decorate([
     (0, _typeorm.Entity)()
 ], UserEntities);

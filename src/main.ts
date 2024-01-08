@@ -10,7 +10,7 @@ async function bootstrap() {
   const taskService = app.get(TaskService);
 
   await telegramService.startBot();
-  await taskService.handleCron();
+  // await taskService.handleCron();
 
   await app.listen(3000);
 }

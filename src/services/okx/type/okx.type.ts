@@ -46,3 +46,8 @@ export type SummaryToken = {
     low24h: string,
     priceAbnormal: []
 }
+
+export type ErrorMessage = {
+    data: null,
+    message: string
+}

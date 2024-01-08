@@ -13,7 +13,7 @@ const _config = require("@nestjs/config");
 const _schedule = require("@nestjs/schedule");
 const _okxservice = require("../../services/okx/okx.service");
 const _telegraf = require("telegraf");
-const _telegramservice = require("@bot/telegram/telegram.service");
+const _telegramservice = require("../../bot/telegram/telegram.service");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);

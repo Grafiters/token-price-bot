@@ -39,7 +39,7 @@ async function createDatabase() {
             });
             await connectionToTargetDatabase.connect();
             console.log("Start create table user");
-            await createTable(connectionToTargetDatabase);
+            // await createTable(connectionToTargetDatabase)
             await connectionToTargetDatabase.end();
         } else {
             console.log(`Database "${targetDatabase}" is exists.`);
@@ -51,7 +51,7 @@ async function createDatabase() {
                 database: targetDatabase
             });
             console.log("Start create table user");
-            await createTable(connectionToTargetDatabase);
+            // await createTable(connectionToTargetDatabase)
             console.log(`Database "${targetDatabase}" already exists.`);
         }
     } catch (error) {
@@ -68,7 +68,7 @@ async function createTable(client) {
         await client.query(`
     CREATE TABLE IF NOT EXISTS "users" (
       "id" SERIAL PRIMARY KEY,
-      "userId" VARCHAR(255) NOT NULL,
+      "userId" INT NOT NULL,
       "ticker" VARCHAR(255) NOT NULL,
       "contractListen" VARCHAR(255) NOT NULL);
     `);

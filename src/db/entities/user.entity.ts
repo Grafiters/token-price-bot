@@ -5,9 +5,15 @@ export class UserEntities {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
-  userId: string;
+  @Column({ type: "bigint", unique: true})
+  userId: number;
+
+  @Column()
+  ticker: string;
 
   @Column()
   tokenContractAddress: string;
+
+  @Column({ type: "bigint"})
+  currentBlock: number;
 }

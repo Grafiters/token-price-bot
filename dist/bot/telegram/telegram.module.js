@@ -13,6 +13,7 @@ const _telegramservice = require("./telegram.service");
 const _config = require("@nestjs/config");
 const _unisatservice = require("../../services/unisat/unisat.service");
 const _httpservice = require("../../services/http/http.service");
+const _usermodule = require("../../db/models/user/user.module");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,6 +24,9 @@ let TelegramModule = class TelegramModule {
 };
 TelegramModule = _ts_decorate([
     (0, _common.Module)({
+        imports: [
+            _usermodule.UserModule
+        ],
         providers: [
             _telegramservice.TelegramService,
             _config.ConfigService,

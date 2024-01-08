@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TelegramModule } from './bot/telegram/telegram.module';
 import { TaskService } from './scheduled/task/task.service';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpService } from './services/http/http.service';
 import { EncryptionService } from './utils/encryption.service';
 import { UnisatService } from './services/unisat/unisat.service';
@@ -18,11 +18,33 @@ import { UserModule } from './db/models/user/user.module';
 import databaseConfig from './configs/database.config';
 import { DatabaseModule } from './configs/database/database.module';
 import { OkxService } from './services/okx/okx.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntitiesRepository } from '@db/models/user/user.repository';
+import { UserEntities } from '@db/entities/user.entity';
 
+export const entities = [
+  UserEntities
+]
+
+// ScheduleModule.forRoot(),
 @Module({
   imports: [
     TelegramModule,
-    ScheduleModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+          type: 'postgres',
+          host: configService.get('database').host,
+          port: configService.get('database').port,
+          username: configService.get('database').username,
+          password: configService.get('database').password,
+          database: configService.get('database').database,
+          entities: entities,
+          synchronize: true,
+      }),
+      inject: [ConfigService],
+    }),
+    TypeOrmModule.forFeature([UserEntities]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [botfatherConfig, databaseConfig],
@@ -33,6 +55,16 @@ import { OkxService } from './services/okx/okx.service';
     UserModule
   ],
   controllers: [AppController],
-  providers: [AppService, TaskService, HttpService, EncryptionService, UnisatService, MessagesService, OkxService, TelegramService, UserService],
+  providers: [
+    AppService,
+    TaskService,
+    HttpService,
+    EncryptionService,
+    UnisatService,
+    MessagesService,
+    OkxService,
+    TelegramService,
+    UserService
+  ],
 })
 export class AppModule {}

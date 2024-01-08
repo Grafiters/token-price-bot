@@ -16,5 +16,6 @@ import { EncryptionService } from '@utils/encryption.service';
     }),
   ],
   providers: [OkxService, AppService, HttpService, MessagesService, EncryptionService],
+  exports: [OkxService]
 })
 export class OkxModule {}

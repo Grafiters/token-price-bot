@@ -12,7 +12,7 @@ async function bootstrap() {
     const telegramService = app.get(_telegramservice.TelegramService);
     const taskService = app.get(_taskservice.TaskService);
     await telegramService.startBot();
-    await taskService.handleCron();
+    // await taskService.handleCron();
     await app.listen(3000);
 }
 (0, _dotenv.config)();
