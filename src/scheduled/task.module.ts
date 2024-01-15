@@ -7,6 +7,8 @@ import botfatherConfig from 'src/configs/botfather.config';
 import { UnisatService } from 'src/services/unisat/unisat.service';
 import { UnisatModule } from 'src/services/unisat/unisat.module';
 import { TelegramService } from 'src/bot/telegram/telegram.service';
+import { UserService } from '@db/models/user/user.service';
+import { UserModule } from '@db/models/user/user.module';
 
 @Module({
   imports: [
@@ -15,7 +17,8 @@ import { TelegramService } from 'src/bot/telegram/telegram.service';
       isGlobal: true,
       load: [botfatherConfig],
     }),
-    UnisatModule
+    UnisatModule,
+    UserModule
   ],
   providers: [AppService, TaskService, UnisatService, ConfigService, TelegramService],
   exports: [TaskModule]

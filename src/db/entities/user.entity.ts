@@ -11,6 +11,12 @@ export class UserEntities {
   @Column()
   ticker: string;
 
+  @Column({ type: 'varchar', length: '15' })
+  chain: string;
+
+  @Column({ type: "int8"})
+  chainId: number;
+
   @Column()
   tokenContractAddress: string;
 

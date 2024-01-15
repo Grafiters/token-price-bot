@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SummaryToken, Token, TokenDetail } from '@services/okx/type/okx.type';
+import { ChainToken, SummaryToken, Token, TokenDetail } from '@services/okx/type/okx.type';
 import { EncryptionService } from '../../utils/encryption.service';
+import { InscribeData } from '@services/unisat/inscribes/type/brc20.type';
 
 @Injectable()
 export class MessagesService {
@@ -12,7 +13,7 @@ export class MessagesService {
 
     public async OkxNotifyMessage<T>(OkxData: Token, summaryToken: SummaryToken): Promise<string>{
         this.logger.log(`Start Build Notifify Message`);
-
+        this.logger.debug(OkxData.fromAddress)
         const fromAddress = `https://unisat.io/brc20?q=${OkxData.fromAddress}`;
         const toAddress = `https://unisat.io/brc20?q=${OkxData.toAddress}`;
         const hashUrl = `https://mempool.space/tx/${OkxData.txId}`;
@@ -34,6 +35,39 @@ New ${OkxData.token} Buy!
 
         this.logger.log(`Completed Build Notifify Message`);
 
+        return message;
+    }
+
+    public async chainTokenMessage(chainTokenResponse: ChainToken[], ticker: string): Promise<string | null>{
+        const mustNetworkList = [];
+        this.logger.debug(chainTokenResponse)
+        chainTokenResponse.map((item) => {
+            if(item.token == ticker){
+                item.network.map((net) => {
+                    mustNetworkList.push(net.chainShortName)
+                });
+            }
+        });
+
+        if(mustNetworkList.length > 1){
+            return mustNetworkList.join(", ");
+        }else if(mustNetworkList.length == 1){
+            return mustNetworkList[0];
+        }else{
+            return ""
+        }
+    }
+
+    public async inscribeMessage(data: InscribeData): Promise<string>{
+const message = `
+Congrats your mint brc20 token is success!
+
+file: ${data.files[0].filename},
+orderId: ${data.orderId},
+status: ${data.files[0].status}
+
+
+`;
         return message;
     }
 

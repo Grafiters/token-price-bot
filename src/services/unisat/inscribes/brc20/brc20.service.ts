@@ -3,6 +3,7 @@ import { HttpService } from '@services/http/http.service';
 import { Header } from '@services/http/type/header.type';
 import { defaultHeader } from '@services/unisat/header.type';
 import { BrcDeploy, BrcMint, BrcTransfer, InscribeData } from '../type/brc20.type';
+import { MessagesService } from '@services/messages/messages.service';
 
 @Injectable()
 export class Brc20Service {
@@ -10,23 +11,25 @@ export class Brc20Service {
     private defaultHeader: Header = defaultHeader;
     private inscribeData: InscribeData;
 
-    constructor(private readonly httpService: HttpService){}
+    constructor(
+        private readonly httpService: HttpService,
+        private readonly messgeService: MessagesService
+    ){}
 
-    public async brcMint<T>(body: BrcMint): Promise<InscribeData | null>{
-        await this.tickerInfo(body.brc20Ticker);
+    public async brcMint<T>(body: BrcMint): Promise<InscribeData | null | string>{
         try {
             const request = await this.httpService.post(`inscribe/order/create/brc20-mint`, 'unisatbrc', this.defaultHeader, body);
-            
-            if(request.status === 200){
+            if(request.data.code === 0){
                 this.inscribeData = request.data.data;
 
+                const message = await this.messgeService.inscribeMessage(this.inscribeData)
                 return this.inscribeData;
             }else{
-                return null;
+                return `Can't minting cause problem ${request.data.msg}`;
             }
         } catch (error) {
             this.logger.error(`error when try to request unisat height block`, error)
-            throw error;
+            return error;
         }
     }
 
@@ -37,7 +40,7 @@ export class Brc20Service {
         }
         try {
             const request = await this.httpService.post(`inscribe/order/create/brc20-deploy`, 'unisatbrc', this.defaultHeader, body);
-            
+
             if(request.status === 200){
                 this.inscribeData = request.data.data;
 
@@ -47,12 +50,12 @@ export class Brc20Service {
             }
         } catch (error) {
             this.logger.error(`error when try to request unisat height block`, error)
-            throw error;
+            return error;
         }
     }
 
     public async brcTransfer<T>(body: BrcTransfer): Promise<InscribeData | null>{
-        await this.tickerInfo(body.brc20Ticker);
+        // await this.tickerInfo(body.brc20Ticker);
         try {
             const request = await this.httpService.post(`inscribe/order/create/brc20-transfer`, 'unisatbrc', this.defaultHeader, body);
             

@@ -10,7 +10,7 @@ export type Token = {
     token: string,
     inscriptionId: string,
     inscriptionNumber: string,
-    index: string,
+    index: number,
     location: string,
     msg: string,
     time: string
@@ -50,4 +50,18 @@ export type SummaryToken = {
 export type ErrorMessage = {
     data: null,
     message: string
+}
+
+export type ChainToken = {
+    tokenUniqueId: any,
+    tokenFullName: any,
+    token: any,
+    network: NetworkToken[]
+}
+
+export type NetworkToken = {
+    chainId: any,
+    chainFullName: any,
+    chainShortName: any,
+    tokenContractAddress: any
 }

@@ -21,15 +21,17 @@ import { OkxService } from './services/okx/okx.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntitiesRepository } from '@db/models/user/user.repository';
 import { UserEntities } from '@db/entities/user.entity';
+import { Brc20Service } from '@services/unisat/inscribes/brc20/brc20.service';
+import { OrderService } from '@services/unisat/inscribes/order/order.service';
 
 export const entities = [
   UserEntities
 ]
 
-// ScheduleModule.forRoot(),
 @Module({
   imports: [
     TelegramModule,
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -64,7 +66,9 @@ export const entities = [
     MessagesService,
     OkxService,
     TelegramService,
-    UserService
+    UserService,
+    Brc20Service,
+    OrderService
   ],
 })
 export class AppModule {}

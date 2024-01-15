@@ -18,7 +18,8 @@ export class HttpService {
     private useProxy = env.USE_PROXY;
 
     private defaultHeader: Record<string, string> = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": 'Bearer 539a15a6705b98a6a5295acceb15d336b218e897362591805bf632276fbaaa49', 
     }
 
     constructor(){}
@@ -34,6 +35,8 @@ export class HttpService {
             const config: AxiosRequestConfig = { 
                 headers
             };
+
+            this.logger.debug(buildUrlPath)
             const response = await axios.get(buildUrlPath, config);
             
             return response;
@@ -49,9 +52,14 @@ export class HttpService {
             const buildUrlPath = await this.buildPathUrl(path);
             this.customHeader = customHeader;
 
-            const headers = await this.buildHeader();
+            const headers = this.defaultHeader;
 
-            const config: AxiosRequestConfig = {headers};
+            const config: AxiosRequestConfig = { 
+                headers 
+            };
+            this.logger.debug(headers)
+            this.logger.debug(JSON.stringify(body))
+            this.logger.debug(buildUrlPath)
             const response = await axios.post(buildUrlPath, JSON.stringify(body), config);
             
             return response;
