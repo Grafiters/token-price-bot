@@ -1,0 +1,10 @@
+version: '3'
+services:
+  bot:
+    image: telebot:0.0.1
+    ports:
+      - 50000:3000
+    volumes:
+      - ./platform.yml:/app/platform.yml
+    env_file:
+      - .env
