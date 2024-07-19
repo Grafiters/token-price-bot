@@ -58,8 +58,8 @@ export class TaskService {
         }
       });
     }else{
-      this.logger.debug('Update user block')
-      await this.updateUserCurrentBlock()
+      // this.logger.debug('Update user block')
+      // await this.updateUserCurrentBlock()
     }
   }
 
@@ -69,7 +69,7 @@ export class TaskService {
       if(item.currentBlock < this.height && transaction != ""){
         this.logger.debug('PUBLISH')
         await this.bot.telegram.sendMessage(item.userId, transaction, { parse_mode: 'HTML' });
-        await this.updateUserCurrentBlock(item.userId)
+        // await this.updateUserCurrentBlock(item.userId)
       }
     })
   }

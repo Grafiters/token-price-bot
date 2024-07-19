@@ -104,6 +104,11 @@ export class TelegramService {
 
     this.message = ctx.message;
     const [, newTicker, newChain ] = this.message.text.split(' ');
+    this.logger.debug(newTicker)
+    this.logger.debug(newChain)
+    if(newTicker === undefined || newChain === undefined){
+      return ctx.reply('please add ticker name and chain id of ticker')
+    }
 
     const updateTicker = await this.userService.updateTickerUser(roomId, newTicker, newChain);
 

@@ -13,9 +13,9 @@ export class MessagesService {
 
     public async OkxNotifyMessage<T>(OkxData: Token, summaryToken: SummaryToken): Promise<string>{
         this.logger.log(`Start Build Notifify Message`);
-        this.logger.debug(OkxData.fromAddress)
-        const fromAddress = `https://unisat.io/brc20?q=${OkxData.fromAddress}`;
-        const toAddress = `https://unisat.io/brc20?q=${OkxData.toAddress}`;
+        this.logger.log(OkxData);
+        const fromAddress = `https://unisat.io/brc20?q=${OkxData.fromAddress || ""}`;
+        const toAddress = `https://unisat.io/brc20?q=${OkxData.toAddress || ""}`;
         const hashUrl = `https://mempool.space/tx/${OkxData.txId}`;
         const tradeOn = `https://www.okx.com/web3/marketplace/ordinals/brc20/${OkxData.token}`;
 
@@ -27,8 +27,8 @@ New ${OkxData.token} Buy!
 📊 24h Volume: ${summaryToken.volume24h} BTC | $${this.calculation(summaryToken.volume24h, summaryToken.lastPrice)}
 💰 Marketcap: $${summaryToken.marketCap}
 
-👤 Buyer: <a href="${toAddress}">${await this.encryptionService.parseAddress(OkxData.toAddress)}</a>
-👤 Seller: <a href="${fromAddress}">${await this.encryptionService.parseAddress(OkxData.fromAddress)}</a>
+👤 Buyer: <a href="${toAddress}">${await this.encryptionService.parseAddress(OkxData.toAddress || "")}</a>
+👤 Seller: <a href="${fromAddress}">${await this.encryptionService.parseAddress(OkxData.fromAddress || "")}</a>
 
 <a href="${hashUrl}">View TX</a> | <a href="https://ave.ai/brc/${OkxData.token}-brc20" >Chart</a>| <a href="${tradeOn}">Trade On OKX</a>
         `;

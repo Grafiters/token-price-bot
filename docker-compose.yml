@@ -2,6 +2,7 @@ version: '3'
 services:
   bot:
     image: telebot:0.0.1
+    restart: always
     ports:
       - 50000:3000
     volumes:
